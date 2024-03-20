@@ -1,0 +1,30 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="'utf-8" />
+  <title>{{template "title" .}} - Sportvia</title>
+  <script src="https://unpkg.com/htmx.org@1.9.10"
+    integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/static/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" />
+  <script>
+    htmx.config.useTemplateFragments = true;
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1><a href="/">Sportvia</a></h1>
+  </header>
+  {{template "nav" .}}
+  <main>
+    {{template "main" .}}
+  </main>
+  <footer>Powered by <a href="https://golang.org/">Go</a></footer>
+</body>
+
+</html>
+{{ end }}

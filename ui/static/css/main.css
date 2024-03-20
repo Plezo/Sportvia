@@ -1,0 +1,102 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  background-color: #f1f3f6;
+  color: #34495e;
+  overflow-y: scroll;
+}
+
+header,
+nav,
+main,
+footer {
+  padding: 2px calc((100% - 900px) / 2) 0;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid purple;
+}
+
+thead th:nth-child(1) {
+  width: 25%;
+}
+
+thead th:nth-child(2) {
+  width: 10%;
+}
+
+thead th:nth-child(3) {
+  width: 10%;
+}
+
+thead th:nth-child(4) {
+  width: 5%;
+}
+
+thead th:nth-child(5) {
+  width: 10%;
+}
+
+thead th:nth-child(6) {
+  width: 10%;
+}
+
+thead th:nth-child(7) {
+  width: 10%;
+}
+
+thead th:nth-child(8) {
+  width: 10%;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+.correct {
+  background-color: #2ecc71;
+}
+
+.wrong {
+  background-color: #e74c3c;
+}
+
+#status {
+  margin: 10px 0;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#status h1 {
+  font-size: 2rem;
+}
+
+#status img {
+  border: 5px solid #2c3e50;
+}
+
+#status ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}

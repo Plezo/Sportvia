@@ -1,0 +1,28 @@
+<div id="game-status" hx-swap-oob="true">
+    <div id="status">
+        <div>
+            <div class="flex-vertical">
+                <h1>{{ .Game.PlayerName }}</h1>
+                <img src="{{ .Game.PlayerImage }}" alt="Player Image" width="300" height="400">
+            </div>
+            <div class="flex-horizontal">
+                <ul>
+                    <li>Age</li>
+                    <li>Height</li>
+                    <li>Team</li>
+                    <li>Conference</li>
+                    <li>Division</li>
+                    <li>Position</li>
+                    <li>Number</li>
+                    <li>{{ .Game.Age }}</li>
+                    <li>{{ call .InToHeight .Game.Height }}</li>
+                    <li>{{ .Game.Team }}</li>
+                    <li>{{ .Game.Conference }}</li>
+                    <li>{{ .Game.Division }}</li>
+                    <li>{{ .Game.Position }}</li>
+                    <li>{{ .Game.PlayerNumber }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

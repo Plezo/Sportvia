@@ -1,0 +1,30 @@
+{{define "title"}}Game #{{.ID}}{{ end }}
+
+{{define "main"}}
+<div id='game' class="game">
+  <div class="metadata">
+    <button hx-post="/games">Start New Game</button>
+    <form hx-patch="/games?id={{ .ID }}" hx-target="#table-body" hx-swap="beforeend">
+      <input type="text" name="playerNameGuess" placeholder="LeBron James" required />
+      <button type="submit">Attempt</button>
+    </form>
+    <div id="game-status"></div>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Player Name</th>
+          <th scope="col">Age</th>
+          <th scope="col">Height</th>
+          <th scope="col">Team</th>
+          <th scope="col">Conference</th>
+          <th scope="col">Division</th>
+          <th scope="col">Position</th>
+          <th scope="col">#</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
+  </div>
+</div>
+{{ end }}
