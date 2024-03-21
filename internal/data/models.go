@@ -7,15 +7,16 @@ import (
 type Models struct {
 	Game interface {
 		Insert(game *Game) error
-		Get(id int64) (*Game, error)
+		Get(id string) (*Game, error)
 		Update(game *Game) error
-		GenerateGame(userID int64) (*Game, error)
+		GenerateGame(userID string) (*Game, error)
 	}
 
 	Player interface {
 		BulkUpsert(players *[]Player) error
 		Insert(player *Player) error
 		GetPlayerByName(name string) (*Player, error)
+		GetAllPlayerNames() (*[]string, error)
 	}
 }
 

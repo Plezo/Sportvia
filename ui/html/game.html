@@ -1,11 +1,21 @@
-{{define "title"}}Game #{{.ID}}{{ end }}
+{{ template "header" }}
 
-{{define "main"}}
 <div id='game' class="game">
   <div class="metadata">
     <button hx-post="/games">Start New Game</button>
-    <form hx-patch="/games?id={{ .ID }}" hx-target="#table-body" hx-swap="beforeend">
-      <input type="text" name="playerNameGuess" placeholder="LeBron James" required />
+    <form hx-patch="/games?id={{ .Game.ID }}" hx-target="#table-body" hx-swap="beforeend">
+      <input 
+      type="text" 
+      list="playerNames" 
+      name="playerNameGuess" 
+      placeholder="LeBron James" 
+      required
+      autocomplete="off" />
+      <datalist id="playerNames">
+        {{ range .PlayerNames }}
+        <option value="{{ . }}">{{ . }}</option>
+        {{ end }}
+      </datalist>
       <button type="submit">Attempt</button>
     </form>
     <div id="game-status"></div>
@@ -27,4 +37,5 @@
     </table>
   </div>
 </div>
-{{ end }}
+
+{{ template "footer" }}

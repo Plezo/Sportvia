@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 	"strconv"
+
+	"github.com/Plezo/Sportvia/internal/utils"
 )
 
 type Attempt struct {
@@ -33,9 +35,9 @@ type PlayerFormatted struct {
 }
 
 func (app *application) gameView(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(r.URL.Query().Get("id"), 10, 64)
-	if err != nil || id < 1 {
-		app.logger.PrintError(err, map[string]string{
+	id := r.URL.Query().Get("id")
+	if !utils.IsValidUUID(id) {
+		app.logger.PrintError(nil, map[string]string{
 			"error": "Error getting game id",
 			"function": "gameView",
 		})
@@ -53,7 +55,22 @@ func (app *application) gameView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = app.templates.ExecuteTemplate(w, "base", game)
+	playerNames, err := app.models.Player.GetAllPlayerNames()
+	if err != nil {
+		app.logger.PrintError(err, map[string]string{
+			"error": "Error getting all players",
+			"function": "gameView",
+		})
+
+		return
+	}
+
+	data := map[string]interface{} {
+		"Game": game,
+		"PlayerNames": playerNames,
+	}
+
+	err = app.templates.ExecuteTemplate(w, "game.html", data)
 	if err != nil {
 		app.logger.PrintError(err, map[string]string{
 			"error": "Error executing template",
@@ -69,10 +86,10 @@ func (app *application) gameView(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) createGameHandler(w http.ResponseWriter, r *http.Request) {
 	var req struct {
-		UserID int64 `json:"userID"`
+		UserID string `json:"userID"`
 	}
 
-	req.UserID = 0
+	req.UserID = "ad24cf83-38e3-408b-a153-3a778b021db4"
 
 	// if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 	// 	app.logger.PrintError(err, map[string]string{
@@ -103,7 +120,7 @@ func (app *application) createGameHandler(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	w.Header().Set("HX-Location", "/games?id=" + strconv.FormatInt(game.ID, 10))
+	w.Header().Set("HX-Location", "/games?id=" + game.ID)
 
 	// r.Header.Set("HX-Redirect", "http://localhost:4000/games?id=" + strconv.FormatInt(game.ID, 10))
 
@@ -123,11 +140,11 @@ func (app *application) createGameHandler(w http.ResponseWriter, r *http.Request
 // TODO: add 1 to attempt for specified game each time this is called
 func (app *application) patchGameHandler(w http.ResponseWriter, r *http.Request) {
 	var req struct {
-		ID int64 `json:"id"`
+		ID string `json:"id"`
 		PlayerNameGuess string `json:"playerNameGuess"`
 	}
 
-	req.ID, _ = strconv.ParseInt(r.URL.Query().Get("id"), 10, 64)
+	req.ID = r.URL.Query().Get("id")
 	req.PlayerNameGuess = r.PostFormValue("playerNameGuess")
 
 	/*

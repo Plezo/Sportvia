@@ -5,7 +5,7 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	err := app.templates.ExecuteTemplate(w, "base", nil)
+	err := app.templates.ExecuteTemplate(w, "home.html", nil)
 	if err != nil {
 		app.logger.PrintError(err, map[string]string{
 			"error": "Error executing template",

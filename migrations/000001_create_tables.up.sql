@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS game (
-    id              BIGSERIAL   PRIMARY KEY,
-    userID          BIGINT      NOT NULL,
+    id              UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+    userID          UUID        NOT NULL,
     playerName      TEXT        NOT NULL,
     age             SMALLINT    NOT NULL,
     height          SMALLINT    NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS game (
 );
 
 CREATE TABLE IF NOT EXISTS player (
-    id              BIGSERIAL   PRIMARY KEY,
+    id              UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     playerName      TEXT        NOT NULL UNIQUE,
     age             SMALLINT    NOT NULL,
     height          SMALLINT    NOT NULL,

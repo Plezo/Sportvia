@@ -1,6 +1,6 @@
-{{define "title"}}Home{{ end }}
+{{ template "header" }}
 
-{{define "main"}}
 <h2>Game</h2>
 <button hx-post="/games">Start New Game</button>
-{{ end }}
+
+{{ template "footer" }}

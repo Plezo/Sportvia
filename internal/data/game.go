@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"errors"
 	"time"
+
+	"github.com/Plezo/Sportvia/internal/utils"
 )
 
 /*
@@ -17,12 +19,14 @@ will be to show a list of players as you're typing in the input field
 
 // Look into making a Height type that accepts an int and return feet and inches string
 type Game struct {
-	ID           int64     `json:"id"`
-	UserID       int64     `json:"userID"`
+	ID           string    `json:"id"`
+	UserID       string    `json:"userID"`
 	PlayerName   string    `json:"playerName"`
 	Age          int8      `json:"age"`
 	Height       int8      `json:"height"`
 	Team         string    `json:"team"`
+	Conference   string    `json:"conference"`
+	Division     string    `json:"division"`
 	Position     string    `json:"position"`
 	PlayerNumber int8      `json:"playerNumber"`
 	PlayerImage  string    `json:"playerImage"`
@@ -30,8 +34,6 @@ type Game struct {
 	MaxAttempts  int8      `json:"maxAttempts"`
 	Win		  	 bool      `json:"win"`
 	CreatedAt    time.Time `json:"createdAt"`
-	Conference   string    `json:"conference"`
-	Division     string    `json:"division"`
 }
 
 type GameModel struct {
@@ -52,8 +54,8 @@ func (m GameModel) Insert(game *Game) error {
 	return m.DB.QueryRowContext(ctx, query, args...).Scan(&game.ID, &game.CreatedAt)
 }
 
-func (m GameModel) Get(id int64) (*Game, error) {
-	if id < 1 {
+func (m GameModel) Get(id string) (*Game, error) {
+	if !utils.IsValidUUID(id) {
 		return nil, errors.New("record not found")
 	}
 
@@ -75,15 +77,15 @@ func (m GameModel) Get(id int64) (*Game, error) {
 		&game.Age,
 		&game.Height,
 		&game.Team,
+		&game.Conference,
+		&game.Division,
 		&game.Position,
 		&game.PlayerNumber,
 		&game.PlayerImage,
 		&game.Attempt,
 		&game.MaxAttempts,
-		&game.CreatedAt,
 		&game.Win,
-		&game.Conference,
-		&game.Division,
+		&game.CreatedAt,
 	)
 
 	if err != nil {
@@ -122,7 +124,7 @@ Check input (Get)
 */
 
 // look into updating pointer to game instead of returning a game pointer
-func (m GameModel) GenerateGame(userID int64) (*Game, error) {
+func (m GameModel) GenerateGame(userID string) (*Game, error) {
 
 	// check if user exists
 
@@ -139,6 +141,8 @@ func (m GameModel) GenerateGame(userID int64) (*Game, error) {
 		Age:          player.Age,
 		Height:       player.Height,
 		Team:         player.Team,
+		Conference:   player.Conference,
+		Division:     player.Division,
 		Position:     player.Position,
 		PlayerNumber: player.PlayerNumber,
 		PlayerImage:  player.PlayerImage,
@@ -146,8 +150,6 @@ func (m GameModel) GenerateGame(userID int64) (*Game, error) {
 		MaxAttempts:  10,
 		Win:          false,
 		CreatedAt:    time.Now().UTC(),
-		Conference:   player.Conference,
-		Division:     player.Division,
 	}, nil
 }
 
@@ -170,12 +172,12 @@ func (m GameModel) GetRandomPlayer() (*Player, error) {
 		&player.Age,
 		&player.Height,
 		&player.Team,
+		&player.Conference,
+		&player.Division,
 		&player.Position,
 		&player.PlayerNumber,
 		&player.PlayerImage,
 		&player.UpdatedAt,
-		&player.Conference,
-		&player.Division,
 	)
 
 	if err != nil {

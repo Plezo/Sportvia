@@ -7,7 +7,7 @@ import (
 )
 
 type Player struct {
-	ID           int64     `json:"id"`
+	ID           string    `json:"id"`
 	PlayerName   string    `json:"playerName"`
 	Age          int8      `json:"age"`
 	Height       int8      `json:"height"`
@@ -39,7 +39,7 @@ func (m PlayerModel) BulkUpsert(players *[]Player) error {
 			playerImage = EXCLUDED.playerImage,
 			updatedAt = EXCLUDED.updatedAt`
 	
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Hour)
 	defer cancel()
 
 	for _, player := range *players {
@@ -160,12 +160,12 @@ func (m PlayerModel) GetPlayerByName(name string) (*Player, error) {
 		&player.Age,
 		&player.Height,
 		&player.Team,
+		&player.Conference,
+		&player.Division,
 		&player.Position,
 		&player.PlayerNumber,
 		&player.PlayerImage,
 		&player.UpdatedAt,
-		&player.Conference,
-		&player.Division,
 	)
 
 	if err != nil {
@@ -173,4 +173,34 @@ func (m PlayerModel) GetPlayerByName(name string) (*Player, error) {
 	}
 
 	return &player, nil
+}
+
+func (m PlayerModel) GetAllPlayerNames() (*[]string, error) {
+	query := `
+		SELECT playerName
+		FROM player`
+
+	var playerNames []string
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	rows, err := m.DB.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var playerName string
+
+		if err := rows.Scan(&playerName); err != nil {
+			return nil, err
+		}
+
+		playerNames = append(playerNames, playerName)	
+	}
+
+	return &playerNames, nil
 }

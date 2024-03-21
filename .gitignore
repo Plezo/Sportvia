@@ -13,3 +13,5 @@ vendor/
 go.work
 
 /tmp
+
+.env

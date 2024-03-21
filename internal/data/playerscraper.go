@@ -148,7 +148,7 @@ func scrapeTeam(team string, players *[]Player) {
 }
 
 func savePlayersCSV(players []Player) error {
-	fName := "../../internal/data/csv/players.csv"
+	fName := "./internal/data/csv/players.csv"
 	file, err := os.Create(fName)
 	if err != nil {
 		log.Fatalf("Cannot create file %q: %s\n", fName, err)
