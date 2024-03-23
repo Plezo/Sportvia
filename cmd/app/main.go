@@ -12,6 +12,7 @@ import (
 
 	"github.com/Plezo/Sportvia/internal/data"
 	"github.com/Plezo/Sportvia/internal/jsonlog"
+	"github.com/joho/godotenv"
 
 	_ "github.com/lib/pq"
 )
@@ -38,8 +39,13 @@ type application struct {
 func main() {
 
 	var cfg config
+	// os.Setenv("SPORTVIA_DB_DSN", "postgres://postgres:password@localhost:5432/sportvia?sslmode=disable")
 
-	os.Setenv("SPORTVIA_DB_DSN", "postgres://postgres:password@localhost:5432/sportvia?sslmode=disable")
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Println("Error loading .env file")
+		os.Exit(1)
+	}
 
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")

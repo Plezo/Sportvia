@@ -161,7 +161,7 @@ func (app *application) patchGameHandler(w http.ResponseWriter, r *http.Request)
 	*/
 
 	game, err := app.models.Game.Get(req.ID)
-
+	
 	if err != nil {
 		app.logger.PrintError(err, map[string]string{
 			"error": "Error getting game",

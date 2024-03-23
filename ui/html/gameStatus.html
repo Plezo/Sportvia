@@ -1,26 +1,42 @@
 <div id="game-status" hx-swap-oob="true">
     <div id="status">
-        <div>
-            <div class="flex-vertical">
+        <div class="flex-horizontal">
+            <div>
                 <h1>{{ .Game.PlayerName }}</h1>
-                <img src="{{ .Game.PlayerImage }}" alt="Player Image" width="300" height="400">
+                <img src="{{ .Game.PlayerImage }}" alt="Player Image" width="200" height="300">
             </div>
-            <div class="flex-horizontal">
-                <ul>
-                    <li>Age</li>
-                    <li>Height</li>
-                    <li>Team</li>
-                    <li>Conference</li>
-                    <li>Division</li>
-                    <li>Position</li>
-                    <li>Number</li>
-                    <li>{{ .Game.Age }}</li>
-                    <li>{{ call .InToHeight .Game.Height }}</li>
-                    <li>{{ .Game.Team }}</li>
-                    <li>{{ .Game.Conference }}</li>
-                    <li>{{ .Game.Division }}</li>
-                    <li>{{ .Game.Position }}</li>
-                    <li>{{ .Game.PlayerNumber }}</li>
+            <div class="stats-outer">
+                <ul class="stats-inner">
+                    <li>
+                        <h4>Team</h4>
+                        <h1>{{ .Game.Team }}</h1>
+                    </li>
+                    <li>
+                        <h4>Conference</h4>
+                        <h1>{{ .Game.Conference }}</h1>
+                    </li>
+                    <li>
+                        <h4>Division</h4>
+                        <h1>{{ .Game.Division }}</h1>
+                    </li>
+                </ul>
+                <ul class="stats-inner">
+                    <li>
+                        <h4>Position</h4>
+                        <h1>{{ .Game.Position }}</h1>
+                    </li>
+                    <li>
+                        <h4>Height</h4>
+                        <h1>{{ call .InToHeight .Game.Height }}</h1>
+                    </li>
+                    <li>
+                        <h4>Age</h4>
+                        <h1>{{ .Game.Age }}</h1>
+                    </li>
+                    <li>
+                        <h4>Number</h4>
+                        <h1>{{ .Game.PlayerNumber }}</h1>
+                    </li>
                 </ul>
             </div>
         </div>

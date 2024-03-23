@@ -147,7 +147,7 @@ func (m GameModel) GenerateGame(userID string) (*Game, error) {
 		PlayerNumber: player.PlayerNumber,
 		PlayerImage:  player.PlayerImage,
 		Attempt:      0,
-		MaxAttempts:  10,
+		MaxAttempts:  8,
 		Win:          false,
 		CreatedAt:    time.Now().UTC(),
 	}, nil

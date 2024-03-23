@@ -1,10 +1,42 @@
-<tr>
-    <th scope="row" class="{{if .GuessData.PlayerName }}correct{{ else }}wrong{{ end }}">{{ .PlayerGuess.PlayerName }}</td>
-    <td class="{{if .GuessData.Age }}correct{{ else }}wrong{{ end }}">{{ .PlayerGuess.Age }} {{ if gt .Game.Age .PlayerGuess.Age }}<span>&#8593;</span>{{else if lt .Game.Age .PlayerGuess.Age}}<span>&#8595;</span>{{ end }}</td>
-    <td class="{{if .GuessData.Height }}correct{{ else }}wrong{{ end }}">{{ call .InToHeight .PlayerGuess.Height }} {{ if gt .Game.Height .PlayerGuess.Height }}<span>&#8593;</span>{{else if lt .Game.Height .PlayerGuess.Height}}<span>&#8595;</span>{{ end }}</td>
-    <td class="{{if .GuessData.Team }}correct{{ else }}wrong{{ end }}">{{ .PlayerGuess.Team }}</td>
-    <td class="{{if .GuessData.Conference }}correct{{ else }}wrong{{ end }}">{{ .PlayerGuess.Conference }}</td>
-    <td class="{{if .GuessData.Division }}correct{{ else }}wrong{{ end }}">{{ .PlayerGuess.Division }}</td>
-    <td class="{{if .GuessData.Position }}correct{{ else }}wrong{{ end }}">{{ .PlayerGuess.Position }}</td>
-    <td class="{{if .GuessData.PlayerNumber }}correct{{ else }}wrong{{ end }}">{{ .PlayerGuess.PlayerNumber }} {{ if gt .Game.PlayerNumber .PlayerGuess.PlayerNumber }}<span>&#8593;</span>{{ else if lt .Game.PlayerNumber .PlayerGuess.PlayerNumber }}<span>&#8595;</span>{{ end }}</td>
+<tr class="attempt-row">
+    <th scope="row">
+        <span>
+            {{ .PlayerGuess.PlayerName }}
+        </span>
+    </th>
+    <td>
+        <span class="{{if .GuessData.Team }}correct{{ else }}wrong{{ end }}">
+            {{ .PlayerGuess.Team }}
+        </span> 
+    </td>
+    <td>
+        <span class="{{if .GuessData.Conference }}correct{{ else }}wrong{{ end }}">
+            {{ .PlayerGuess.Conference }}
+        </span>
+    </td>
+    <td>
+        <span class="{{if .GuessData.Division }}correct{{ else }}wrong{{ end }}">
+            {{ .PlayerGuess.Division }}
+        </span>
+    </td>
+    <td>
+        <span class="{{if .GuessData.Position }}correct{{ else }}wrong{{ end }}">
+            {{ .PlayerGuess.Position }}
+        </span>
+    </td>
+    <td>
+        <span class="{{if .GuessData.Height }}correct{{ else }}wrong{{ end }}">
+            {{ call .InToHeight .PlayerGuess.Height }} {{ if gt .Game.Height .PlayerGuess.Height }}<span>&#8593;</span>{{else if lt .Game.Height .PlayerGuess.Height}}<span>&#8595;</span>{{ end }}
+        </span>
+    </td>
+    <td>
+        <span class="{{if .GuessData.Age }}correct{{ else }}wrong{{ end }}">
+            {{ .PlayerGuess.Age }} {{ if gt .Game.Age .PlayerGuess.Age }}<span>&#8593;</span>{{else if lt .Game.Age .PlayerGuess.Age}}<span>&#8595;</span>{{ end }}
+        </span>
+    </td>
+    <td>
+        <span class="{{if .GuessData.PlayerNumber }}correct{{ else }}wrong{{ end }}">
+            {{ .PlayerGuess.PlayerNumber }} {{ if gt .Game.PlayerNumber .PlayerGuess.PlayerNumber }}<span>&#8593;</span>{{ else if lt .Game.PlayerNumber .PlayerGuess.PlayerNumber }}<span>&#8595;</span>{{ end }}
+        </span>
+    </td>
 </tr>
