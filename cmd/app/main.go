@@ -18,7 +18,7 @@ import (
 )
 
 type config struct {
-	port int
+	bind string
 	env  string
 	db   struct {
 		dsn          string
@@ -41,21 +41,30 @@ func main() {
 	var cfg config
 	// os.Setenv("SPORTVIA_DB_DSN", "postgres://postgres:password@localhost:5432/sportvia?sslmode=disable")
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		fmt.Println("Error loading .env file")
-		os.Exit(1)
-	}
-
-	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
-	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("SPORTVIA_DB_DSN"), "PostgreSQL DSN")
-
+	flag.StringVar(&cfg.bind, "bind", "localhost:8080", "Server bind address")
 	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "PostgreSQL max idle connections")
 	flag.StringVar(&cfg.db.maxIdleTime, "db-max-idle-time", "15m", "PostgreSQL max connection idle time")
 
 	flag.Parse()
+
+	if cfg.env == "development" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			fmt.Println("Error loading .env file")
+			os.Exit(1)
+		}
+	}
+
+	if _, ok := os.LookupEnv("SPORTVIA_DB_DSN"); ok {
+		cfg.db.dsn = os.Getenv("SPORTVIA_DB_DSN")
+	} else {
+		fmt.Println("SPORTVIA_DB_DSN not set")
+		os.Exit(1)
+	}
+
+	// flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("SPORTVIA_DB_DSN"), "PostgreSQL DSN")
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 
@@ -73,7 +82,7 @@ func main() {
 	}
 
 	srv := &http.Server{
-		Addr:         fmt.Sprintf("localhost:%d", cfg.port),
+		Addr:         cfg.bind,
 		Handler:      app.routes(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,

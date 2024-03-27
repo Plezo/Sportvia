@@ -1,0 +1,19 @@
+# flyctl launch added from .gitignore
+**\*.exe
+**\*.exe~
+**\*.dll
+**\*.so
+**\*.dylib
+
+**\*.test
+
+**\*.out
+
+**\vendor
+
+**\go.work
+
+tmp
+
+**\.env
+fly.toml
